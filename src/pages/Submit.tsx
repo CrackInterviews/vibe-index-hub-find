@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -69,8 +68,10 @@ const Submit = () => {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
+    
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
@@ -88,6 +89,7 @@ const Submit = () => {
         
         <div className="glass-card rounded-lg p-6 mb-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            
             <div>
               <label htmlFor="title" className="block text-sm font-medium mb-2">
                 Project Title

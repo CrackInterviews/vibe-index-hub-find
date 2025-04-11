@@ -47,7 +47,7 @@ const Index = () => {
   });
 
   // Get likes for sorting
-  const { data: projectLikes = [] } = useQuery({
+  const { data: projectLikes = new Map<string, number>() } = useQuery({
     queryKey: ['project-likes'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -90,7 +90,7 @@ const Index = () => {
         return (b.views || 0) - (a.views || 0);
       }
       if (sortBy === 'newest') {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime();
       }
       return 0;
     });

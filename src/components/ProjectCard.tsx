@@ -13,6 +13,8 @@ export interface Project {
   category: string;
   url: string;
   views: number;
+  created_at?: string;
+  fallbackBackground?: string;
 }
 
 interface ProjectCardProps {
