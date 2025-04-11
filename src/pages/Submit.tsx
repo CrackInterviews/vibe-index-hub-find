@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Submit = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -23,14 +25,30 @@ const Submit = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast.success("Project submitted successfully! It will be reviewed by our team.");
+    try {
+      // Save project to Supabase
+      const { data, error } = await supabase
+        .from('projects')
+        .insert({
+          title: formData.title,
+          description: formData.description,
+          category: formData.category,
+          url: formData.url,
+          image_url: formData.imageUrl || null,
+        })
+        .select()
+        .single();
+      
+      if (error) {
+        throw error;
+      }
+      
+      toast.success("Project submitted successfully!");
+      
       // Clear form
       setFormData({
         title: "",
@@ -39,7 +57,17 @@ const Submit = () => {
         url: "",
         imageUrl: "",
       });
-    }, 1500);
+      
+      // Redirect to home after successful submission
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (error) {
+      console.error("Error submitting project:", error);
+      toast.error("Failed to submit project. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
