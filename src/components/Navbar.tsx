@@ -11,9 +11,8 @@ const Navbar = () => {
         <img 
           src="/lovable-uploads/dcfa634e-d811-4b45-b6b9-ca17a626f111.png" 
           alt="The Vibe Index Logo" 
-          className="h-8 w-8"
+          className="h-12 w-12" 
         />
-        VI
       </Link>
       <div className="flex gap-3">
         {location.pathname !== '/submit' && (
@@ -32,3 +31,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
